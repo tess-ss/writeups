@@ -1,58 +1,79 @@
-## Summary
+## TL;DR
+The indexing of website endpoints in web archives services such as web archive, URLscan, or Alien Vault raises concerns over privacy and security, as it can expose sensitive information. This article examines the responsibility and measures that can be taken to prevent such incidents.
 
-The topic at hand is the indexing of website endpoints in Web Archive/URLscan/Alien Vault. Who is to blame? It could be the customers who share the URLs with their network via social media or other platforms. However, why is a company held responsible, and what steps can be taken to mitigate this risk?
+## Introduction
+As a bug hunter, I've experienced firsthand the difficulties in effectively communicating my viewpoint on this subject to program owners and platform triagers. To address this challenge, I've decided to write a comprehensive explanation of my understanding of this topic to provide a standard solution for all bug hunters in the community. In this post, we'll explore the reality that all websites on the internet are exposed to automated crawls and scanners, regardless of whether website owners exposed by mistake some hidden endpoints. We'll use the example of a subdomain containing sensitive information, such as invoices, to illustrate the potential for information exposure.
 
-## Explanation
-Why this writeup or research on this topic, or why is it Important?
+## How does web archiving work?
+Web archiving is the process of gathering data that has been recorded on the World Wide Web, storing it, ensuring the data is preserved in an archive, and making the collected data available for future research. The Internet Archive and several national libraries initiated web archiving practices in 1996.
 
-I have been struggling for a while explaining my point in Bug Bounties reports for Impact to both triagers and Program Owners regarding this topic. So I thought why not write a detialed explanation and my understanding on this subject so its easier and a universal solution for all Bug Hunters in the community.
+![https://support.archive-it.org/hc/article_attachments/360053522331/Screen_Shot_2020-03-30_at_10.46.20_AM.png](https://support.archive-it.org/hc/article_attachments/360053522331/Screen_Shot_2020-03-30_at_10.46.20_AM.png)
 
-So lets consider the example target here which is https://example.com 
+Web archiving is an intricate process that creates a digital snapshot of a website, preserving its appearance and content for future reference. The process involves three key components: capture, storage, and replay. Each step utilizes different technologies to achieve the final goal of revisiting a website as it appeared on a specific date.
 
-First of all let me be very clear, each and every website on the Intranet is spidered/ crawled by these scanners/ crawlers regardless of the fact that users are sharing the endpoints or they aren't. So lets consider https://subdomain.example.com is storing sensitive content of its users such as Invoices or any file regardless of the file extension.
+The first step of the process involves sending out a web crawler, also known as a robot or bot, to gather all the necessary elements of a website, including text, images, CSS, and javascript. The crawler then stores the collected data and metadata in a web archive file, commonly known as a WARC. As the WARC file size has limitations, multiple WARCs are often needed to preserve an entire website.
 
-So lets consider the following as https://subdomain.example.com/1122.pdf/?access_token=jwt which is a Billing Invoice for the user to download the PDF of his/ her billing. What are the chances of this being spidered/ crawled? I would say from my personal opinion 80-90% there is a chance this endpoint getting cached/ spidered by Any Indexing site and also they might save the PDF as well. So let's why is this happening when this was suppose to be a secret between the client and the company.
+To replay the archived website, the WARC files must be processed using a replay mechanism, such as Wayback, which is part of the Archive-It system. This allows the website to be viewed as it appeared on the day it was archived, providing a historical record of its content and design. Web archiving is also helpful for data mining, but its primary purpose is to allow users to interact with a website as it was initially published.
 
-First of all lots of companies makes a mistake here which is they configure `/robots.txt` file on the main domain which is `https://example.com/robots.txt` and they expect it to honor on the subdomains which is not going to be happen here, sorry :) 
 
-Each and every subdomain serving sensitive content should have a very strict `/robots.txt` configured on each of its subdomain if they want to avoid Indexing of they're users sensitive content.
+## Title 1
 
-For example: The main domain here is https://example.com so example.com should have a robots.txt file configured on each subdomains like 
+The endpoint, https://subdomain.example.com/1122.pdf/?access_token=jwt, serves as an illustration of the potential for information exposure. This endpoint is a billing invoice that can be downloaded in PDF format by the user. The probability of this endpoint being scanned and crawled ranges from 80-90%. This increases the likelihood of caching or spidering by indexing sites, leading to the potential storage of the confidential PDF.
 
-```
-https://tess.example.com/robots.txt
-https://subdomain.example.com/robots.txt 
-```
 
-Please do not rely on the main domain `/robots.txt` file cause scanners/ crawlers DO NOT HONOR main domain file while indexing the endpoints and contents of subdomains.
+## Keeping Confidential Content Safe: Configuring Subdomains Robots.txt File
+Failing to configure the `robots.txt` file on subdomains properly can result in serious security issues. To keep sensitive information protected, it is necessary to have a separate and strict `robots.txt` file for each subdomain that contains confidential content. For example, if the main domain is https://www.example.com, then each subdomain like https://subdomain.example.com should have its specific `robots.txt` file to ensure that search engines do not index sensitive information.
 
-You must having a question, now like okay tess you are focusing so much on `/robots.txt` file so why you don't tell us what contents to be served in the following file to avoid such indexing? Right?
+It is important to note that relying solely on the primary domain `robots.txt` file is not effective in preventing indexing by scanners and crawlers. These entities do not abide by the primary domain file when indexing subdomains and their contents.
 
-Okay so here is it is, Please configure it like 
+It is advisable to configure the `robots.txt` file to mitigate indexing issues. The recommended configuration is as follows:
 
 ```bash
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
 Disallow: /
 ```
+To prevent sensitive information from being indexed and potentially leaked, monitoring and updating the `robots.txt` file regularly is crucial. If this is not enough, there are further measures to remove the website from online archives, such as the Internet Archive, Wayback Machine, and Archive.org.
+Here's how to do it:
+* Block the archives' crawlers in the website's `robots.txt` file and verify the copyright information.
+* Compose a DMCA Takedown Notice with detailed links to the pages you want removed from the archives.
+* Obtain proof of domain ownership, such as an old invoice showing the earliest date of ownership.
+* Send a polite email to the archives' crawler with the attached DMCA Takedown Notice and proof of domain ownership.
+* Allow 3-5 days for the removal process to take place.
 
-Keep updating the file as you get reports from bug hunters that a new crawler is not indexing your site, so please update it accordingly.
+I have outlined the steps for removing your website from `Archive.org` and have included additional information for each step to make it as easy as possible. However, I have experienced inconsistent results in the past with the `Internet Archive`, which can be frustrating. Sometimes, updating my site leads to the deletion of my `robots.txt` file, resulting in my website being re-archived on `Archive.org`. It would be great if Archive.org offered a verification system for publishers to request a takedown or a webmaster tool like those found on Google and Bing.
 
-Now, I have also noticed even after having a strict `/robots.txt` file configured the Indexing does not stops and it keeps happening and if you are already Indexed and now your sensitive data is leaking by it, what should you do in such scenarios? I know you might get frustrated by this point, so what should you do in such scenarios?
+## Steps for Removing Your Website From Archive Services
 
-Steps to Delete your Site from the Internet Archive / Wayback Machine / Archive.org / Alein Vault and others as well.
+***Protecting Your Copyright through Robots.txt and Compliance: Blocking Archive.org Service Access***
 
-Please read these 5 easy and proven steps to remove your site from the Internet Archive / Wayback Machine / Archive.org.
+Blocking `Archive.org` archive service from accessing your website is straightforward with the use of the `robots.txt` file. To prevent `Archive.org` from accessing your site, add the following code to the end of your robots.txt file:
 
-I have provided extensive detail if you scroll down, but the key 5 steps to deleting your site from Archive.org are below:
+```bash
+User-agent: ia_archiver
+Disallow: /
+```
 
-* Update your website robots.txt file to block the Internet Archive / Wayback Machine / Archive.org Crawler / Check your Copyright Notice
-* Draft a DMCA Takedown Notice with specific links to sites / pages you want to be removed from the Internet Archive / Wayback Machine / Archive.org
-* Find an old invoice demonstrating the oldest date of ownership you have for the domain.
-* Draft and send a polite email with 2. and 3. attached to the Internet Archive / Wayback Machine / Archive.org Crawler
-* Wait 3-5 days
+If you are not comfortable editing the `robots.txt` file, you can use a WordPress plugin, such as the [Archive.org Blocker](https://wordpress.org/plugins/block-archive-org-robots-txt/), to do this for you. This plugin will automatically block Archive.org from archiving your website.
 
-I have provided details below with more information to complete each easy step to remove your website from Archive.org and links if you need help. Honestly, my results have always been mixed and it’s one of my frustrations with the Internet Archive. A site update has sometimes resulted in my robots.txt file getting nuked and I find out I am in Archive.org again. I wish Archive.org would give publishers a way of verifying your domain to do a takedown or a webmaster tool like that found on Google/Bing.
+![](https://ps.w.org/block-archive-org-robots-txt/assets/banner-772x250.jpg?rev=1922069)
+
+When making changes to your website, it is also important to consider the copyright notice. A copyright notice is a statement that indicates who holds the exclusive rights to the content on your site. It acts as a warning to others that they may not use your content without permission.
+
+Content management systems usually automatically add a copyright notice to your website. It is essential to ensure that this notice is accurate and up-to-date, as it serves as legal protection for your content. You may need to update the notice if you have made any changes to the content, such as adding new information or images.
+
+Including the date of publication on your copyright notice is also a good practice. This helps to establish when the content was first published and provides a time frame for when the copyright will expire.
+
+To summarize, checking your website's copyright notice is an important step when making changes to your site. Ensure that it is accurate, up-to-date, and includes the date of publication to provide proper legal protection for your content.
+
+***Sending a DMCA Takedown Notice to the Internet Archive / Wayback Machine / Archive.org***
+
+If you have found archived content on the Internet Archive that violates your intellectual property rights, you can send a DMCA takedown notice to have it removed. A DMCA takedown notice is a legal document, so it is important to make sure you understand what you are doing before proceeding with this step.
+
+To generate a DMCA takedown notice, you can use a free generator tool, such as the one from Who Is Hosting This or Intellectual Property HQ. Make sure to paste in the website addresses from Archive.org that correspond to the dates you owned the domain and the content you want to be removed.
+
+It is important to note that this step should only be taken if you have a serious issue with archived content and have consulted with legal counsel. If you are unsure or nervous about sending a DMCA takedown notice, it may be best to seek the advice of a legal expert.
+
 
 **Step 1: Robots.txt to Block a site from the Internet Archive / Wayback Machine / Archive.org / Check Copyright Notice**
 
