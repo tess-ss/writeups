@@ -169,6 +169,6 @@ Once you remove the site or file a email to do so, your website will no longer b
 I hope it was easy to understand, And I look forward to all companies to Implement this and not blame any users or any facts for Indexing and take it as a serious security issue.
 
 Thanks you for reading and I hope you have blessed rest of your day/ night.
-- tess
+tess
 
 Follow me on [Twitter](https://twitter.com/ArmanSameer95), If you want to reach me out with further questions.
