@@ -160,7 +160,7 @@ In my experience, if you do everything above, you will get a response within 5 d
 * I do not provide any support or assistance in removing your site or page. I also cannot remove your site.
 * I am not affiliated with the Internet Archive. 
 
-The folllowing contents were copied from [joshualowcock](https://www.joshualowcock.com/guide/how-to-delete-your-site-from-the-internet-archive-wayback-machine-archive-org/) Huge thanks for him to creating this. I copied the entire steps from him because I think nobody can better explain this the way he did. 
+The folllowing contents were copied from [joshualowcock](https://www.joshualowcock.com/guide/how-to-delete-your-site-from-the-internet-archive-wayback-machine-archive-org/) Huge thanks to him for creating this. I copied the entire steps from him because I think nobody can better explain this the way he did. 
 
 Once you remove the site or file a email to do so, your website will no longer be Indexed and will be listed as Not allowed to indexed or forbidden. Just like this 
 
