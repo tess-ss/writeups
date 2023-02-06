@@ -1,5 +1,6 @@
 ## Summary
-The following topic is about Web Archive/ URLscan/ Alien vault Indexing your website endpoints, and who's fault is it? Customers cause they share the URLs with friends, family, Twitter or XYZ. And why is a company responsible for this and how can you eliminate this risk?
+
+The topic at hand is the indexing of website endpoints in Web Archive/URLscan/Alien Vault. Who is to blame? It could be the customers who share the URLs with their network via social media or other platforms. However, why is a company held responsible, and what steps can be taken to mitigate this risk?
 
 ## Explanation
 Why this writeup or research on this topic, or why is it Important?
