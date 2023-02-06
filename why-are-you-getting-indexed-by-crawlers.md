@@ -16,7 +16,7 @@ The first step of the process involves sending out a web crawler, also known as 
 To replay the archived website, the WARC files must be processed using a replay mechanism, such as Wayback, which is part of the Archive-It system. This allows the website to be viewed as it appeared on the day it was archived, providing a historical record of its content and design. Web archiving is also helpful for data mining, but its primary purpose is to allow users to interact with a website as it was initially published.
 
 
-## Title 1
+## Example
 
 The endpoint, https://subdomain.example.com/1122.pdf/?access_token=jwt, serves as an illustration of the potential for information exposure. This endpoint is a billing invoice that can be downloaded in PDF format by the user. The probability of this endpoint being scanned and crawled ranges from 80-90%. This increases the likelihood of caching or spidering by indexing sites, leading to the potential storage of the confidential PDF.
 
