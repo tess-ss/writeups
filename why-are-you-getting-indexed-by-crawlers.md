@@ -18,7 +18,7 @@ To replay the archived website, the WARC files must be processed using a replay 
 
 ## Example
 
-The endpoint, https://subdomain.example.com/1122.pdf/?access_token=jwt, serves as an illustration of the potential for information exposure. This endpoint is a billing invoice that can be downloaded in PDF format by the user. The probability of this endpoint being scanned and crawled ranges from 80-90%. This increases the likelihood of caching or spidering by indexing sites, leading to the potential storage of the confidential PDF.
+The endpoint, https://subdomain.example.com/1122.pdf/?access_token=jwt, serves as an illustration of the potential for information exposure. This endpoint is a billing invoice that can be downloaded in PDF format by the user. The probability of this endpoint being scanned and crawled ranges from 80-90%. This increases the likelihood of caching or spidering by indexing sites, leading to the potential storage of the confidential PDF. The following subdomain serving this content should have a strict `/robots.txt` on  https://subdomain.example.com/robots.txt and should be restricted for crawling/ spidering from Indexing sites. Please make sure you have a strict Indexing policy on robots.txt file which is honored by web crawlers. If you are still getting Indexed please follow the mentioned steps below to eliminate this risk.
 
 
 ## Keeping Confidential Content Safe: Configuring Subdomains Robots.txt File
