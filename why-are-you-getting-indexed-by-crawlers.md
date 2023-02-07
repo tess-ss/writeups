@@ -77,7 +77,7 @@ It is important to note that this step should only be taken if you have a seriou
 
 **Step 1: Robots.txt to Block a site from the Internet Archive / Wayback Machine / Archive.org / Check Copyright Notice**
 
-If you’re super interested, you can learn more about robots.txt here.
+If you’re super interested, you can learn more about robots.txt [here](https://www.robotstxt.org/orig.html).
 
 Archive.org has a mixed attitude to robots.txt but they do honor them.
 
